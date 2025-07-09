@@ -91,7 +91,7 @@ def receive_loop(sock):
 def main():
     parser = argparse.ArgumentParser(description='TCP Client for Rust Server')
     parser.add_argument('--host', default='127.0.0.1', help='Server host (default: 127.0.0.1)')
-    parser.add_argument('--port', type=int, default=12345, help='Server port (default: 12345)')
+    parser.add_argument('--port', type=int, default=2345, help='Server port (default: 12345)')
     parser.add_argument('--msg-id', type=int, help='Message ID to send')
     parser.add_argument('--payload', type=str, help='Hex payload to send (e.g. "010203")')
     parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
@@ -110,11 +110,22 @@ def main():
     recv_thread = threading.Thread(target=receive_loop, args=(sock,), daemon=True)
     recv_thread.start()
 
+    ## Send the message with id 1 and the payload 0xAABBCCDD at start
+    payload = 0x08154217.to_bytes(4, byteorder='big')  # Example payload
+    msg = build_message(1, payload)
+    # Add 4-byte big-endian length prefix for Rust server compatibility
+    msg_with_len = len(msg).to_bytes(4, byteorder='big') + msg
+    sock.sendall(msg_with_len)
+    log_message('SEND', 1, payload)
+
+
     if args.msg_id is not None:
         try:
             payload = bytes.fromhex(args.payload) if args.payload else b''
             msg = build_message(args.msg_id, payload)
-            sock.sendall(msg)
+            # Add 4-byte big-endian length prefix for Rust server compatibility
+            msg_with_len = len(msg).to_bytes(4, byteorder='big') + msg
+            sock.sendall(msg_with_len)
             log_message('SEND', args.msg_id, payload)
         except Exception as e:
             logging.error(f'Failed to send message: {e}')
