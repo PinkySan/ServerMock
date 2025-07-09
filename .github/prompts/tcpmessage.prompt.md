@@ -28,6 +28,7 @@ description: TCP message format specification
 enum message_id {
     MSG_ID_HELLO = 1,
     MSG_ID_GOODBYE = 2,
+    MSG_ID_MEASUREMENT = 3,
     // Add more message IDs as needed
 };
 struct __attribute__((packed)) hello {
@@ -36,6 +37,11 @@ struct __attribute__((packed)) hello {
 
 struct __attribute__((packed)) goodbye {
     char message[256];
+};
+
+struct __attribute__((packed)) measurement {
+    float temperature;
+    float humidity;
 };
 ```
 
