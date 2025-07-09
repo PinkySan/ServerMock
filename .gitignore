@@ -1,0 +1,26 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+
+# VSCode settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependency folders
+Cargo.lock
+
+# By-products
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Backup files
+*~
+*.swp
