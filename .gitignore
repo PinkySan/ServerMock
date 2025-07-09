@@ -28,3 +28,10 @@ Cargo.lock
 # rust targets
 # Exclude all target directories
 **/target/
+
+# python environment folder
+\.venv/
+# Python cache files
+__pycache__/
+# Python bytecode files
+*.pyc
