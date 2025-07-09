@@ -5,6 +5,7 @@ description: Configurable Rust server
 # TCP Server
 
 * Create a Rust server that can be configured by the user with arguments
+* For better usability, the application must use the CLI argument parser `clap`
 * By default, the server should listen on `127.0.0.1:2345`
 * The server should be able to send TCP messages to clients
 * The server must only support a single client at a time

@@ -24,3 +24,7 @@ Cargo.lock
 # Backup files
 *~
 *.swp
+
+# rust targets
+# Exclude all target directories
+**/target/
